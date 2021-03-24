@@ -1,0 +1,8 @@
+# log files
+*.log
+
+# test files
+test*
+
+# cache
+*__pycache__*
