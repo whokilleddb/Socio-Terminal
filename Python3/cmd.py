@@ -12,6 +12,8 @@ import subprocess
 
 import shutil
 
+from miscellaneous import *
+
 def std_operation(cmd):
 
 	list_app = []
@@ -33,24 +35,28 @@ def cmd(cmd):
 
 	door = "\U0001F6AA"          # Exiting                                   : door
 	help = "\U0001F914"          # help                                      : thinking face
-	file_making = "\U0001F4DD"   # file making                               : memo
+	file = "\U0001F4DD"          # file making/file                          : memo
 	chng_direc = "\U0001F3CE"    # chnging directory                         : racing car
-	remove_folder = "\U0001F6AE" # removing folder                           : litter in bin sign
+	remove  = "\U0001F6AE"       # removing                                  : litter in bin sign
+	folder = "\U0001F4C1"        # folder					 : file folder
 
-
+	# exiting
 	if cmd == door:
 		break
 
+	# help section
 	elif cmd == help:
 		help = help()
 		return help
 
-	elif cmd[:10] == file_making and len(cmd) > 1:
+	# creating file
+	elif cmd[:10] == file and len(cmd) > 1:
 
 		file = open(cmd[11:], 'w')
 		file.close()
 		return ""
 
+	# changing directory
 	elif cmd[:10] == chng_direc and len(cmd) > 1:
 
 		try:
@@ -61,17 +67,23 @@ def cmd(cmd):
 			e = f"{e}: can't move to specified directory"
 			return e
 
-	elif cmd[:10] == remove_folder and len(cmd) > 1:
+	# Removing folder
+	elif cmd[:10] == remove and cmd.find(folder) and len(cmd) > 1:
 
 		try:
 			pwd = os.getcwd()
-			abs_path = pwd+'/'+cmd[11:]
+			abs_path = pwd+'/'+cmd[22:]
 			shutil.rmtree(abs_path)
 
 			return ""
 		except Exception as e:
 			e = f"{e}: folder can't be removed"
 			return e
+
+	# Removing file
+	elif cmd[:10] == remove and cmd.find(file) and len(cmd) > 1:
+
+		rm(cmd[22:])
 
 	else:
 		std_operation(cmd)
