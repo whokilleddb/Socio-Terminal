@@ -15,9 +15,6 @@ import shutil
 from miscellaneous import *
 
 
-def help():
-	pass
-
 # Emoji to use as cmd
 open_port = "\U0001F44C"     # Open port to listen for connection        : ok
 ss = "\U0001F933"            # Take screenshot                           : selfie
@@ -33,6 +30,11 @@ chng_direc = "\U0001F3CE"    # chnging directory                         : racin
 remove  = "\U0001F6AE"       # removing                                  : litter in bin sign
 folder = "\U0001F4C1"        # folder					 : file folder
 
+# Help menu
+def help_menu():
+	help = list()
+	pass
+
 def exit(cmd):
 	# exiting
 	if cmd == door:
@@ -45,7 +47,7 @@ def help(cmd):
 	if cmd == Help:
 		logger = logthis()
 		logger.info(f"{Help}: Showing Help menu")
-		Help = help()
+		Help = help_menu()
 		return Help
 
 def touch(cmd):
