@@ -1,14 +1,42 @@
 #!/bin/python3
 
+# This file will contain the functions which include :
+# 1. Extracting message from discord and returning their strings
+# 2. Mapping unicode characters with certain commonly used commands like starting a listening port, executing a brute force attack
+# 3. Returning the Output with the original command
+# 4. Downloading images and gifs and calculating their md5sum followed by mapping them to specific commands like (2)
+# 5. More
+#
+# Note :
+# Call all Functions using threads (Use Low Level Threading Like : start_new_thread)
+# Store all downloaded media in /tmp       
+# Use Asyncio ?
+
+
 import discord
 import requests
 from discord.ext import commands
 import subprocess
 from dotenv import load_dotenv
 import os
+import logging
 import asyncio
 
 load_dotenv()  #Makes the .env file accessible to my script as the source of the environment variables
+ 
+class discordlog:  #Wrapper Around logging module
+    def __init__(self):
+        logging.basicConfig(level=logging.DEBUG,filename="discord-console.log",format="%(asctime)s [%(levelname)s] - [%(filename)s > %(funcName)s() > %(lineno)s] - %(message)s",datefmt="%H:%M:%S")
+    def debug(self,msg):
+        logging.debug(msg)
+    def info(self,msg):
+           logging.info(msg)
+    def warning(self,msg):
+           logging.warning(msg)
+    def error(self,msg):
+           logging.error(msg)
+    def critical(self,msg):
+           logging.critical(msg)
 
 ID=int(os.getenv("ID"))
 bot=commands.Bot(command_prefix="!")
@@ -29,10 +57,11 @@ def md5sum(a):  #To calculate the md5sum of a sent image
     
 @bot.event  #Bot activation message while logging in
 async def on_ready():
-     print("You have logged in as {0}".format(bot.user))
-     channel=bot.get_channel(ID)
-     await channel.send("Welcome back Mr.Anderson!")
-     await bot.process_commands()  #We cannot trigger the bot.command instructions wihout writing this line in case of bot.event
+    logger=discordlog()
+    logger.warning("You have logged in as {0}".format(bot.user))
+    channel=bot.get_channel(ID)
+    await channel.send("Welcome back Mr.Anderson!")
+    await bot.process_commands()  #We cannot trigger the bot.command instructions wihout writing this line in case of bot.event
 
 @bot.event  #For commands
 async def on_message(message):
